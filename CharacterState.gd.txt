@@ -1,0 +1,38 @@
+Extends CharacterBody3D
+class_name CharacterState
+
+static var current_state : CharacterState = CharacterIdleState :
+	set(value):
+		if current_state.has_method("exit"):
+			current_state.exit()
+		current_state = value
+		if current_state.has_method("enter"):
+			current_state.enter()
+
+static var should_move_and_slide : bool = true
+
+func _physics_process() -> void:
+	current_state.update()
+	if should_move_and_slide: move_and_slide()
+
+func _update() -> void:
+	pass
+
+func _enter() -> void:
+	pass
+
+func _exit() -> void:
+	pass
+
+func _get_state_name() -> String:
+	return "Template_State"
+
+func input_vector() -> Vector2:
+	return Input.get_vector("Left", "Right", "Up", "Down")
+
+func is_holding_run() -> bool:
+	return Input.is_action_pressed("Sprint_Modifier")
+
+func is_holding_crouch() -> bool:
+	return Input.is_action_pressed("Crouch_Modifier")
+

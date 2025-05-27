@@ -1,0 +1,14 @@
+Extends CharacterState
+class_name CharacterIdleState
+
+func _enter() -> void:
+	pass
+
+func _update() -> void:
+	pass
+
+func _exit() -> void:
+	pass
+
+func _get_state_name() -> String:
+	return "Idle"
