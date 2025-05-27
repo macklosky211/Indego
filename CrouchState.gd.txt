@@ -3,11 +3,14 @@ class_name CharacterCrouchState
 
 
 const JUMP_SPEED : float = 4.5
-const STRAFE_SPEED : float = 3.0
-const FORWARD_SPEED : float = 5.0
-const BACKWARD_SPEED : float = 3.0
+const STRAFE_SPEED : float = 1.5
+const FORWARD_SPEED : float = 2.5
+const BACKWARD_SPEED : float = 1.5
 
 const DECEL_SPEED : float = 2.5
+
+func _enter() -> void:
+	character_is_crouched = true
 
 ## Attempt to fix movement velocity issues... not sure if this works...
 func _update() -> void:
@@ -28,6 +31,9 @@ func _update() -> void:
 		velocity.x = move_towards(velocity.x, 0, DECEL_SPEED)
 		velocity.y = move_towards(velocity.y, 0, DECEL_SPEED)
 		if velocity.x == 0 and velocity.y == 0: current_state = CharacterIdleState
+
+func _exit() -> void:
+	character_is_crouched = false
 
 func _get_state_name() -> String:
 	return "Crouch"
