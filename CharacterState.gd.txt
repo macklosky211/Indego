@@ -30,9 +30,12 @@ func _get_state_name() -> String:
 func input_vector() -> Vector2:
 	return Input.get_vector("Left", "Right", "Up", "Down")
 
-func is_holding_run() -> bool:
+func is_holding_sprint() -> bool:
 	return Input.is_action_pressed("Sprint_Modifier")
 
 func is_holding_crouch() -> bool:
 	return Input.is_action_pressed("Crouch_Modifier")
+
+func is_holding_jump() -> bool:
+	return Input.is_action_pressed("Jump")
 

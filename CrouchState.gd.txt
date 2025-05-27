@@ -1,0 +1,33 @@
+Extends CharacterState
+class_name CharacterCrouchState
+
+
+const JUMP_SPEED : float = 4.5
+const STRAFE_SPEED : float = 3.0
+const FORWARD_SPEED : float = 5.0
+const BACKWARD_SPEED : float = 3.0
+
+const DECEL_SPEED : float = 2.5
+
+## Attempt to fix movement velocity issues... not sure if this works...
+func _update() -> void:
+	if not is_holding_crouch():
+		if velocity.x == 0.0 and velocity.y == 0.0: current_state = CharacterIdleState
+		else:	current_state = CharacterWalkingState
+		return
+	
+	if is_holding_jump() and is_on_floor(): velocity.z += JUMP_SPEED
+
+	var input_dir : Vector2 = input_vector()
+	
+	if input_dir:
+		velocity.x = move_towards(velocity.x, transform.basis.x * input_dir.x, STRAFE_SPEED)
+		if input_dir.y > 0: velocity.y = move_towards(velocity.y, FORWARD_SPEED, FORWARD_SPEED)
+		else: velocity.y = move_towards(velocity.y, input_dir.y * BACKWARD_SPEED, BACKWARD_SPEED)
+	else:
+		velocity.x = move_towards(velocity.x, 0, DECEL_SPEED)
+		velocity.y = move_towards(velocity.y, 0, DECEL_SPEED)
+		if velocity.x == 0 and velocity.y == 0: current_state = CharacterIdleState
+
+func _get_state_name() -> String:
+	return "Crouch"

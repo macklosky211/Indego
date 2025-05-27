@@ -5,7 +5,13 @@ func _enter() -> void:
 	pass
 
 func _update() -> void:
-	pass
+	if is_holding_crouch(): current_state = CharacterCrouchState
+	else:
+		var input_dir : Vector2 = input_vector()
+		if input_dir:
+			if is_holding_sprint(): current_state = CharacterSprintState
+			else: current_state = CharacterWalkState
+		elif is_holding_jump() and is_on_floor(): current_state = CharacterWalkState
 
 func _exit() -> void:
 	pass
