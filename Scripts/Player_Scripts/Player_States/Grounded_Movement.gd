@@ -1,6 +1,8 @@
 extends Player_State
 class_name Player_Grounded_Movement
 
+const JUMP_FORCE : float = 5.0
+
 const FORWARD_WALK_SPEED : float = 5.0
 const BACKWARD_WALK_SPEED : float = FORWARD_WALK_SPEED * 0.5
 const STRAFE_WALK_SPEED : float = FORWARD_WALK_SPEED * 0.75
@@ -23,6 +25,7 @@ const CROUCH_SPEEDS : Array[float] = [0, FORWARD_CROUCH_SPEED, BACKWARD_CROUCH_S
 const ACCEL : float = 1.0
 
 func _update(player : Player_Controller, _delta : float) -> void:
+	if Input.is_action_pressed("Jump") and player.velocity.y < JUMP_FORCE: player.velocity.y += JUMP_FORCE;
 	if not player.is_on_floor(): player.current_state = player.Air_Movement; return
 	var input : Vector2 = _get_input()
 
