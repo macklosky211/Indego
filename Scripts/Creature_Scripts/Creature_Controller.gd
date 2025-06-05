@@ -7,6 +7,7 @@ class_name Creature_Controller
 @onready var Delay_State_Timer : Timer = $Delay_State_Timer
 @onready var Stun_Timer : Timer = $Stun_Timer
 @onready var Stun_Immunity_Timer : Timer = $Stun_Immunity_Timer
+@onready var Nav_Agent : NavigationAgent3D = $NavigationAgent3D
 
 ## The current 'state' that the creature is in.
 ## This state dictates behaviors and interactions that the monster can do.
