@@ -11,7 +11,7 @@ func _update(_Player : Player_Controller, _delta : float) -> void:
 	pass
 
 func _get_state_name() -> String:
-	return "Player_State"
+	return "Player_Template_State"
 
 func _get_input() -> Vector2:
 	return Input.get_vector("Left", "Right", "Down", "Up")
