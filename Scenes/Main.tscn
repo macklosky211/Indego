@@ -18,6 +18,7 @@ sky = SubResource("Sky_kln2b")
 [sub_resource type="NavigationMesh" id="NavigationMesh_rgh2o"]
 vertices = PackedVector3Array(-49.5, 1, -49.5, -49.5, 1, 49.5, 49.5, 1, 49.5, 49.5, 1, -49.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+agent_max_slope = 65.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_r150o"]
 size = Vector3(100, 1, 100)
@@ -58,7 +59,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.99893, 22.2501)
 script = ExtResource("4_rgh2o")
 Map_Collider = NodePath("Area3D")
 Navigation_Mesh = NodePath("../NavigationRegion3D")
-Idle_Interaction_Spots = [NodePath("POI_1")]
+Idle_Interaction_Spots = [NodePath("POI_1"), NodePath("POI_2"), NodePath("POI_3"), NodePath("POI_4")]
 metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
 
 [node name="Area3D" type="Area3D" parent="Zone_1"]
@@ -68,7 +69,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 25)
 shape = SubResource("BoxShape3D_pbw6q")
 
 [node name="POI_1" type="Node3D" parent="Zone_1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 47)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 1, 47)
+
+[node name="POI_2" type="Node3D" parent="Zone_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, 40)
+
+[node name="POI_3" type="Node3D" parent="Zone_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1, 21)
+
+[node name="POI_4" type="Node3D" parent="Zone_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 5)
 
 [node name="Zone_2" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
 script = ExtResource("4_rgh2o")

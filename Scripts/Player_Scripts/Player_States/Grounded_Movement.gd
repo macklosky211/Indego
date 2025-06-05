@@ -45,4 +45,4 @@ func _update(player : Player_Controller, _delta : float) -> void:
 	if player.velocity.x == 0 and player.velocity.z == 0: player.current_state = player.Idle
 	
 func _get_state_name() -> String:
-	return "Player_Moving"
+	return "Player_Grounded_Movement"

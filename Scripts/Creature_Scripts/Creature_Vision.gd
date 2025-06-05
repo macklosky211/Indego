@@ -8,7 +8,8 @@ func _Check_Vision(area : Area3D) -> Array[Player_Controller]:
 	var Players_In_Vision : Array[Player_Controller]
 	for object in area.get_overlapping_bodies():
 		if object is Player_Controller:
-			vision_cast.target_position = (object.global_position - vision_cast.global_position) # These two may have to be backwards.
+			vision_cast.target_position = (object.global_position - vision_cast.global_position)
+			vision_cast.global_rotation = Vector3.ZERO
 			vision_cast.force_raycast_update()
 			if vision_cast.get_collider() is Player_Controller: Players_In_Vision.append(object)
 	return Players_In_Vision

@@ -3,26 +3,29 @@ class_name Creature_Idle_In_Area
 
 const CREATURE_SPEED : float = 5.0
 
+@onready var vision: Creature_Vision = $"../../Vision"
+
 var interacted_with_last_POI : bool = false
+
 
 func _update(creature : Creature_Controller, _delta : float) -> void:
 	# if vision._Check_All_Vision().size() > 0: print("0_0")
 	_handle_vision()
-
-	if creature.Nav_Agent.is_target_reached(): _interact_with_POI()
-
-	if interacted_with_last_POI: creature.Nav_Agent.target_position = Vector3.ZERO 
-
-	if creature.Nav_Agent.target_position == Vector3.ZERO: 
-		creature.Nav_Agent.target_position = _find_something_to_do_in_area(creature)
+	
+	if creature.Nav_Agent.is_target_reached(): _interact_with_POI();
+	
+	if interacted_with_last_POI: creature.Nav_Agent.target_position = Vector3.ZERO;
+	
+	if creature.Nav_Agent.target_position == Vector3.ZERO: creature.Nav_Agent.target_position = _find_something_to_do_in_area(creature); interacted_with_last_POI = false;
 	if not creature.Nav_Agent.is_target_reachable(): creature.Nav_Agent.target_position = Vector3.ZERO; push_error("Couldnt reach idle_interaction_spot"); return
-
-	var direction : Vector3 = (creature.Nav_Agent.get_next_path_position() - creature.global_position).normalized() * CREATURE_SPEED
-
+	
+	var next_path_postion : Vector3 = creature.Nav_Agent.get_next_path_position()
+	
+	var direction : Vector3 = (next_path_postion - creature.global_position).normalized() * CREATURE_SPEED
+	
 	creature.velocity = direction
-	creature.target_to_look_at = direction # This wont work. we should be overwriting the AI's rotation directly here. _enter/exit needs to set should_look_at_target = true/false
+	creature.target_to_look_at = next_path_postion
 
-@onready var vision: Creature_Vision = $"../../Vision"
 
 func _get_state_name() -> String:
 	return "Creature_Idle_In_Area"

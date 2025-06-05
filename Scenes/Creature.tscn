@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4x36pjr1sdgx"]
+[gd_scene load_steps=10 format=3 uid="uid://c4x36pjr1sdgx"]
 
 [ext_resource type="Script" uid="uid://c4qpg1ldfkr7t" path="res://Scripts/Creature_Scripts/Creature_Controller.gd" id="1_0inej"]
 [ext_resource type="Script" uid="uid://d2d5whmtlm24j" path="res://Scripts/Creature_Scripts/Creature_States/Creature_Idle.gd" id="2_s16ri"]
@@ -6,6 +6,13 @@
 [ext_resource type="Script" uid="uid://c0o5aphpw0o3h" path="res://Scripts/Creature_Scripts/Creature_Vision.gd" id="4_xbil5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0inej"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xbil5"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fr2yh"]
+material = SubResource("StandardMaterial3D_xbil5")
+size = Vector3(0.5, 0.25, 0.5)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xyrmj"]
 
@@ -17,6 +24,10 @@ script = ExtResource("1_0inej")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_0inej")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.568424, -0.335489)
+mesh = SubResource("BoxMesh_fr2yh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_xyrmj")
@@ -51,9 +62,14 @@ script = ExtResource("4_xbil5")
 [node name="Mid_Vision" type="Area3D" parent="Vision"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Vision/Mid_Vision"]
-transform = Transform3D(3, 0, 0, 0, -1.31134e-07, 3, 0, -3, -1.31134e-07, 0, 0, 2.97633)
+transform = Transform3D(3, 0, 0, 0, -1.31134e-07, -3, 0, 3, -1.31134e-07, 0, 0, -3.02367)
 shape = SubResource("ConvexPolygonShape3D_xbil5")
 
 [node name="RayCast3D" type="RayCast3D" parent="Vision"]
+target_position = Vector3(0, 0, -10)
+debug_shape_custom_color = Color(1, 0, 0, 1)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.25
+debug_enabled = true
+debug_path_custom_color = Color(0, 1, 0, 1)
