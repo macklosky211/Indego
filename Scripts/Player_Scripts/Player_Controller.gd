@@ -10,11 +10,11 @@ var current_state: Player_State:
 		print(current_state._get_state_name())
 		if current_state is Object and current_state.has_method("_enter"): current_state._enter(self)
 
-@onready var idle: Player_State = $Idle
-@onready var moving: Player_State = $Moving
+@onready var Idle: Player_State = $Idle
+@onready var Grounded_Movement: Player_State = $Grounded_Movement
 
 func _ready() -> void:
-	current_state = idle
+	current_state = Idle
 
 func _physics_process(delta: float) -> void:
 	if current_state is Object and current_state.has_method("_update"): current_state._update(self, delta)
