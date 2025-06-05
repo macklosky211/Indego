@@ -1,0 +1,15 @@
+extends Node ## May want to be a Resource... not sure yet.
+class_name Map_Area
+
+## This box defines each Map_Area's physical location.
+@export var Map_Collider : Area3D
+
+## Each zone will have its own navigation mesh.
+@export var Navigation_Mesh : NavigationRegion3D
+
+
+#func get_all_creatures() -> Array[Monster]:
+#	pass
+
+#func get_all_players() -> Array[Player]:
+#	pass
