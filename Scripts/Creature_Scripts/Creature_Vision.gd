@@ -19,3 +19,12 @@ func _Check_All_Vision() -> Array[Player_Controller]:
 		if player not in Players_In_Vision : Players_In_Vision.append(player)
 	#add other visions here :)
 	return Players_In_Vision
+
+func _check_med_vision() -> Array[Player_Controller]:
+	return _Check_Vision(mid_vision)
+
+func _check_low_vision() -> Array[Player_Controller]:
+	return []
+
+func _check_high_vision() -> Array[Player_Controller]:
+	return []

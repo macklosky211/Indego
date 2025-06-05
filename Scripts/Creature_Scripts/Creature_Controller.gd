@@ -84,8 +84,10 @@ var predicted_player_location : Vector3 = Vector3.ZERO
 #@onready var Stunned : Creature_State = $States/Stunned
 
 func _ready() -> void:
-	if not multiplayer.is_server():	set_process(false);	set_physics_process(false);	return
+	if not multiplayer.is_server(): set_process(false); set_physics_process(false); return
+	current_area = $"../Zone_1" # Latter on maybe just find the area your in...
 	creature_state = Idle_In_Area
+	
 
 func _physics_process(delta: float) -> void:
 	if fmod(current_frame, frame_delay) == 0 and creature_state is Object and creature_state.has_method("_update"): creature_state._update(self, delta)

@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://c4x36pjr1sdgx"]
 
-[ext_resource type="Script" uid="uid://c4qpg1ldfkr7t" path="res://Scripts/CreatureScripts/Creature_Controller.gd" id="1_0inej"]
-[ext_resource type="Script" uid="uid://d2d5whmtlm24j" path="res://Scripts/CreatureScripts/Creature_Idle.gd" id="2_s16ri"]
-[ext_resource type="Script" uid="uid://dyoimy13cg5rw" path="res://Scripts/CreatureScripts/Creature_Idle_In_Area.gd" id="3_bdkse"]
-[ext_resource type="Script" uid="uid://c0o5aphpw0o3h" path="res://Scripts/CreatureScripts/Creature_Vision.gd" id="4_xbil5"]
+[ext_resource type="Script" uid="uid://c4qpg1ldfkr7t" path="res://Scripts/Creature_Scripts/Creature_Controller.gd" id="1_0inej"]
+[ext_resource type="Script" uid="uid://d2d5whmtlm24j" path="res://Scripts/Creature_Scripts/Creature_States/Creature_Idle.gd" id="2_s16ri"]
+[ext_resource type="Script" uid="uid://dyoimy13cg5rw" path="res://Scripts/Creature_Scripts/Creature_States/Creature_Idle_In_Area.gd" id="3_bdkse"]
+[ext_resource type="Script" uid="uid://c0o5aphpw0o3h" path="res://Scripts/Creature_Scripts/Creature_Vision.gd" id="4_xbil5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0inej"]
 
@@ -53,3 +53,7 @@ script = ExtResource("4_xbil5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Vision/Mid_Vision"]
 transform = Transform3D(3, 0, 0, 0, -1.31134e-07, 3, 0, -3, -1.31134e-07, 0, 0, 2.97633)
 shape = SubResource("ConvexPolygonShape3D_xbil5")
+
+[node name="RayCast3D" type="RayCast3D" parent="Vision"]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

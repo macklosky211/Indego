@@ -11,16 +11,16 @@ class_name Map_Area
 
 func get_all_creatures() -> Array[Creature_Controller]:
 	var found_monsters : Array[Creature_Controller]
-    if Map_collider == null: push_error("Map_Collider for ", name, " was null.")
-    for children in Map_Collider.get_overlapping_bodies():
-        if child is Creature_Controller: found_monsters.append(child)
-    return found_monsters
+	if Map_Collider == null: push_error("Map_Collider was null.")
+	for child in Map_Collider.get_overlapping_bodies():
+		if child is Creature_Controller: found_monsters.append(child)
+	return found_monsters
 
 func get_all_players() -> Array[Player_Controller]:
-    var found_players : Array[Player_Controller]
-    if Map_collider == null: push_error("Map_Collider for ", name, " was null.")
-    for children in Map_Collider.get_overlapping_bodies():
-        if child is Player_Controller: found_players.append(child)
-    return found_players
+	var found_players : Array[Player_Controller]
+	if Map_Collider == null: push_error("Map_Collider was null.")
+	for child in Map_Collider.get_overlapping_bodies():
+		if child is Player_Controller: found_players.append(child)
+	return found_players
 
 func get_idle_interaction_spots() -> Array[Node3D]: return Idle_Interaction_Spots

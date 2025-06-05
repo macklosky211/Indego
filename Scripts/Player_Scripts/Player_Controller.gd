@@ -12,6 +12,7 @@ var current_state: Player_State:
 
 @onready var Idle: Player_State = $Idle
 @onready var Grounded_Movement: Player_State = $Grounded_Movement
+@onready var Air_Movement: Player_Air_Movement = $Air_Movement
 
 func _ready() -> void:
 	current_state = Idle

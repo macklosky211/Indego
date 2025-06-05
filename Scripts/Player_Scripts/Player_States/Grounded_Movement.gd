@@ -34,8 +34,8 @@ func _update(player : Player_Controller, _delta : float) -> void:
 	if input.x != 0: # If were holding left/right we are either strafing or moving diagnal.
 		speed_index = 3 # STRAFE_SPEED
 		speed_index += absf(input.y) # Move towards Diagnal
-	elif: input.y > 0: speed_index = 1 # If not strafing were either going forwards 
-	elif: input.y < 0: speed_index = 2 # or backwards.
+	elif input.y > 0: speed_index = 1 # If not strafing were either going forwards 
+	elif input.y < 0: speed_index = 2 # or backwards.
 
 	if Input.is_action_pressed("Crouch_Modifier"): speed_array = CROUCH_SPEEDS
 	elif Input.is_action_pressed("Sprint_Modifier"): speed_array = SPRINT_SPEEDS

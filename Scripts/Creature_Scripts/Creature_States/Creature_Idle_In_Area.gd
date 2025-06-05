@@ -14,8 +14,8 @@ func _update(creature : Creature_Controller, _delta : float) -> void:
 	if interacted_with_last_POI: creature.Nav_Agent.target_position = Vector3.ZERO 
 
 	if creature.Nav_Agent.target_position == Vector3.ZERO: 
-		creature.Nav_Agent.target_position = _find_something_to_do_in_area()
-	if not creature.Nav_Agent.is_target_reachable(): target_idle_spot = Vector3.ZERO; push_error("Couldnt reach idle_interaction_spot"); return
+		creature.Nav_Agent.target_position = _find_something_to_do_in_area(creature)
+	if not creature.Nav_Agent.is_target_reachable(): creature.Nav_Agent.target_position = Vector3.ZERO; push_error("Couldnt reach idle_interaction_spot"); return
 
 	var direction : Vector3 = (creature.Nav_Agent.get_next_path_position() - creature.global_position).normalized() * CREATURE_SPEED
 
@@ -43,7 +43,7 @@ func _handle_vision() -> void:
 
 func _find_something_to_do_in_area(creature: Creature_Controller) -> Vector3:
 	var idle_spots : Array[Node3D] = creature.current_area.get_idle_interaction_spots()
-	var random_selection : Vector3 = idle_spots[randi_in_range(0, idle_spots.size() - 1)].global_position
+	var random_selection : Vector3 = idle_spots[randi_range(0, idle_spots.size() - 1)].global_position
 	return random_selection
 
 func _interact_with_POI() -> void:

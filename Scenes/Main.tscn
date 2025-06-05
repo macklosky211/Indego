@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://8rbjto6hgu2o"]
+[gd_scene load_steps=12 format=3 uid="uid://8rbjto6hgu2o"]
 
 [ext_resource type="Texture2D" uid="uid://deqkavgacqrnu" path="res://Assets/Skybox.png" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://cwdaippcfuti3" path="res://Scenes/Player.tscn" id="2_idj7w"]
 [ext_resource type="PackedScene" uid="uid://c4x36pjr1sdgx" path="res://Scenes/Creature.tscn" id="3_kln2b"]
+[ext_resource type="Script" uid="uid://bfvgxck4uxd4g" path="res://Scripts/Resources/Map_Area.gd" id="4_rgh2o"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_idj7w"]
 panorama = ExtResource("1_r150o")
@@ -14,11 +15,18 @@ sky_material = SubResource("PanoramaSkyMaterial_idj7w")
 background_mode = 2
 sky = SubResource("Sky_kln2b")
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_rgh2o"]
+vertices = PackedVector3Array(-49.5, 1, -49.5, -49.5, 1, 49.5, 49.5, 1, 49.5, 49.5, 1, -49.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
 [sub_resource type="BoxMesh" id="BoxMesh_r150o"]
 size = Vector3(100, 1, 100)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_idj7w"]
 data = PackedVector3Array(-50, 0.5, 50, 50, 0.5, 50, -50, -0.5, 50, 50, 0.5, 50, 50, -0.5, 50, -50, -0.5, 50, 50, 0.5, -50, -50, 0.5, -50, 50, -0.5, -50, -50, 0.5, -50, -50, -0.5, -50, 50, -0.5, -50, 50, 0.5, 50, 50, 0.5, -50, 50, -0.5, 50, 50, 0.5, -50, 50, -0.5, -50, 50, -0.5, 50, -50, 0.5, -50, -50, 0.5, 50, -50, -0.5, -50, -50, 0.5, 50, -50, -0.5, 50, -50, -0.5, -50, 50, 0.5, 50, -50, 0.5, 50, 50, 0.5, -50, -50, 0.5, 50, -50, 0.5, -50, 50, 0.5, -50, -50, -0.5, 50, 50, -0.5, 50, -50, -0.5, -50, 50, -0.5, 50, 50, -0.5, -50, -50, -0.5, -50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pbw6q"]
+size = Vector3(50, 10, 50)
 
 [node name="Main" type="Node"]
 
@@ -28,12 +36,16 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 36.
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rgh2o")
 
-[node name="Floor" type="MeshInstance3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_rgh2o")
+
+[node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D"]
 mesh = SubResource("BoxMesh_r150o")
+skeleton = NodePath("../..")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="Floor"]
+[node name="StaticBody3D2" type="StaticBody3D" parent="NavigationRegion3D/Floor"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D2"]
 shape = SubResource("ConcavePolygonShape3D_idj7w")
 
 [node name="Player" parent="." instance=ExtResource("2_idj7w")]
@@ -41,3 +53,55 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0404, 0)
 
 [node name="Creature" parent="." instance=ExtResource("3_kln2b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.99893, 22.2501)
+
+[node name="Zone_1" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh", "Idle_Interaction_Spots")]
+script = ExtResource("4_rgh2o")
+Map_Collider = NodePath("Area3D")
+Navigation_Mesh = NodePath("../NavigationRegion3D")
+Idle_Interaction_Spots = [NodePath("POI_1")]
+metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
+
+[node name="Area3D" type="Area3D" parent="Zone_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_1/Area3D"]
+shape = SubResource("BoxShape3D_pbw6q")
+
+[node name="POI_1" type="Node3D" parent="Zone_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46, 0, 47)
+
+[node name="Zone_2" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
+script = ExtResource("4_rgh2o")
+Map_Collider = NodePath("Area3D")
+Navigation_Mesh = NodePath("../NavigationRegion3D")
+metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
+
+[node name="Area3D" type="Area3D" parent="Zone_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, -25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_2/Area3D"]
+shape = SubResource("BoxShape3D_pbw6q")
+
+[node name="Zone_3" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
+script = ExtResource("4_rgh2o")
+Map_Collider = NodePath("Area3D")
+Navigation_Mesh = NodePath("../NavigationRegion3D")
+metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
+
+[node name="Area3D" type="Area3D" parent="Zone_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_3/Area3D"]
+shape = SubResource("BoxShape3D_pbw6q")
+
+[node name="Zone_4" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
+script = ExtResource("4_rgh2o")
+Map_Collider = NodePath("Area3D")
+Navigation_Mesh = NodePath("../NavigationRegion3D")
+metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
+
+[node name="Area3D" type="Area3D" parent="Zone_4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, -25)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_4/Area3D"]
+shape = SubResource("BoxShape3D_pbw6q")
