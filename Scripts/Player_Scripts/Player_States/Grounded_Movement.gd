@@ -28,7 +28,7 @@ func _update(player : Player_Controller, _delta : float) -> void:
 	if Input.is_action_pressed("Jump") and player.velocity.y < JUMP_FORCE: player.velocity.y += JUMP_FORCE;
 	if not player.is_on_floor(): player.current_state = player.Air_Movement; return
 	var input : Vector2 = _get_input()
-
+	
 	var speed_array : Array[float] = WALK_SPEEDS
 	var speed_index = 0 # Default to '0' AKA no speed.
 	if input.x != 0: # If were holding left/right we are either strafing or moving diagnal.
@@ -36,7 +36,7 @@ func _update(player : Player_Controller, _delta : float) -> void:
 		speed_index += absf(input.y) # Move towards Diagnal
 	elif input.y > 0: speed_index = 1 # If not strafing were either going forwards 
 	elif input.y < 0: speed_index = 2 # or backwards.
-
+	
 	if Input.is_action_pressed("Crouch_Modifier"): speed_array = CROUCH_SPEEDS
 	elif Input.is_action_pressed("Sprint_Modifier"): speed_array = SPRINT_SPEEDS
 	

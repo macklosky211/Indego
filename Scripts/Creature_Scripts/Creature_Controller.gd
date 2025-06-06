@@ -23,7 +23,7 @@ var creature_state : Creature_State:
 ## This is used to get a quick lookup as to where this creature is.
 var current_area : Map_Area:
 	set(value):
-		print("[", self.name, "] entered new zone: ", value.get_class())
+		if value is Object: print("[", self.name, "] entered new zone: ", value.name)
 		current_area = value
 
 ## This variable dictates what the creature should be 'looking' directly at.
@@ -85,17 +85,15 @@ var predicted_player_location : Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	if not multiplayer.is_server(): set_process(false); set_physics_process(false); return
-	current_area = $"../Zone_1" # Latter on maybe just find the area your in...
 	creature_state = Idle_In_Area
-	
 
 func _physics_process(delta: float) -> void:
 	if fmod(current_frame, frame_delay) == 0 and creature_state is Object and creature_state.has_method("_update"): creature_state._update(self, delta)
 	if should_add_gravity and not is_on_floor(): velocity += get_gravity() * delta
-	if should_look_at_target:
+	if should_look_at_target  and target_to_look_at != global_position:
 		look_at(target_to_look_at)
 		if should_lock_rotation: rotation.x = 0.0; rotation.z = 0.0
 	if should_move_and_slide: move_and_slide()
 
 ## Returns a boolean specifying if this creature can be stunned. This is based on the Stun_Immunity_Timer.
-func _can_be_stunned() -> bool:	return Stun_Immunity_Timer.wait_time == 0.0
+func _can_be_stunned() -> bool: return Stun_Immunity_Timer.wait_time == 0.0

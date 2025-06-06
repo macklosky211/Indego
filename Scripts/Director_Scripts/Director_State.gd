@@ -1,17 +1,17 @@
 extends Node
-class_name Creature_State
+class_name Director_State
 
-func _enter(_Creature : Creature_Controller) -> void:
+func _enter(_Creature : Director) -> void:
 	pass
 
-func _exit(_Creature : Creature_Controller) -> void:
+func _exit(_Creature : Director) -> void:
 	pass
 	
-func _update(_Creature : Creature_Controller, _delta : float) -> void:
+func _update(_Creature : Director) -> void:
 	pass
 
 func _get_state_name() -> String:
-	return "Creature_State"
+	return "Director_Template_State"
 
 func _move_vector_towards(original_value : Vector3, desired_value : Vector3, delta : float) -> Vector3:
 	var result = Vector3.ZERO

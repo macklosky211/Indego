@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://8rbjto6hgu2o"]
+[gd_scene load_steps=16 format=3 uid="uid://8rbjto6hgu2o"]
 
+[ext_resource type="Script" uid="uid://dmht8tkm3e0ph" path="res://Scripts/Director_Scripts/Director.gd" id="1_pbw6q"]
 [ext_resource type="Texture2D" uid="uid://deqkavgacqrnu" path="res://Assets/Skybox.png" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://cwdaippcfuti3" path="res://Scenes/Player.tscn" id="2_idj7w"]
 [ext_resource type="PackedScene" uid="uid://c4x36pjr1sdgx" path="res://Scenes/Creature.tscn" id="3_kln2b"]
 [ext_resource type="Script" uid="uid://bfvgxck4uxd4g" path="res://Scripts/Resources/Map_Area.gd" id="4_rgh2o"]
+[ext_resource type="Script" uid="uid://bv2x3voqq7x7t" path="res://Scripts/Interactables/Director_Info_Button.gd" id="6_v1gob"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_idj7w"]
 panorama = ExtResource("1_r150o")
@@ -29,13 +31,37 @@ data = PackedVector3Array(-50, 0.5, 50, 50, 0.5, 50, -50, -0.5, 50, 50, 0.5, 50,
 [sub_resource type="BoxShape3D" id="BoxShape3D_pbw6q"]
 size = Vector3(50, 10, 50)
 
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_pbw6q"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v1gob"]
+
 [node name="Main" type="Node"]
+
+[node name="Director" type="Node" parent="." node_paths=PackedStringArray("Map_Areas")]
+unique_name_in_owner = true
+script = ExtResource("1_pbw6q")
+Map_Areas = [NodePath("../Zone_1"), NodePath("../Zone_2"), NodePath("../Zone_3"), NodePath("../Zone_4")]
+
+[node name="Director_Timer" type="Timer" parent="Director"]
+wait_time = 2.5
+autostart = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 36.6297, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rgh2o")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player" parent="Players" instance=ExtResource("2_idj7w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3.0404, 0)
+
+[node name="Creatures" type="Node" parent="."]
+
+[node name="Creature" parent="Creatures" instance=ExtResource("3_kln2b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.99893, 22.2501)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_rgh2o")
@@ -48,12 +74,6 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D2"]
 shape = SubResource("ConcavePolygonShape3D_idj7w")
-
-[node name="Player" parent="." instance=ExtResource("2_idj7w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0404, 0)
-
-[node name="Creature" parent="." instance=ExtResource("3_kln2b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.99893, 22.2501)
 
 [node name="Zone_1" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh", "Idle_Interaction_Spots")]
 script = ExtResource("4_rgh2o")
@@ -80,38 +100,67 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 1, 21)
 [node name="POI_4" type="Node3D" parent="Zone_1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 5)
 
-[node name="Zone_2" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
+[node name="Zone_2" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh", "Idle_Interaction_Spots")]
 script = ExtResource("4_rgh2o")
 Map_Collider = NodePath("Area3D")
 Navigation_Mesh = NodePath("../NavigationRegion3D")
+Idle_Interaction_Spots = [NodePath("POI_5")]
 metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
 
 [node name="Area3D" type="Area3D" parent="Zone_2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, -25)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_2/Area3D"]
 shape = SubResource("BoxShape3D_pbw6q")
 
-[node name="Zone_3" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
+[node name="POI_5" type="Node3D" parent="Zone_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.2569, 1, -21.3826)
+
+[node name="Zone_3" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh", "Idle_Interaction_Spots")]
 script = ExtResource("4_rgh2o")
 Map_Collider = NodePath("Area3D")
 Navigation_Mesh = NodePath("../NavigationRegion3D")
+Idle_Interaction_Spots = [NodePath("POI_6")]
 metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
 
 [node name="Area3D" type="Area3D" parent="Zone_3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 25)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_3/Area3D"]
 shape = SubResource("BoxShape3D_pbw6q")
 
-[node name="Zone_4" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh")]
+[node name="POI_6" type="Node3D" parent="Zone_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8879, 1, 20.6756)
+
+[node name="Zone_4" type="Node" parent="." node_paths=PackedStringArray("Map_Collider", "Navigation_Mesh", "Idle_Interaction_Spots")]
 script = ExtResource("4_rgh2o")
 Map_Collider = NodePath("Area3D")
 Navigation_Mesh = NodePath("../NavigationRegion3D")
+Idle_Interaction_Spots = [NodePath("POI_7")]
 metadata/_custom_type_script = "uid://bfvgxck4uxd4g"
 
 [node name="Area3D" type="Area3D" parent="Zone_4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, -25)
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Zone_4/Area3D"]
 shape = SubResource("BoxShape3D_pbw6q")
+
+[node name="POI_7" type="Node3D" parent="Zone_4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.1904, 1, -27.0753)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -6)
+script = ExtResource("6_v1gob")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_pbw6q")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_v1gob")
+skeleton = NodePath("../..")

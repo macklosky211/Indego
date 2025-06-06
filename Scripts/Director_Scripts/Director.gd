@@ -11,43 +11,41 @@ var collective_intensity : float = 0.0
 ## This timer is what causes the main logical loop for this director.
 @onready var Director_Timer : Timer = $Director_Timer
 
-## This dictionary stores all the important information about every creature.
-## Format: Creature {
-## 		Current_Area : Map_Area,
-##		Target_Player : Player
-##		}
-var Creature_Info : Dictionary[Dictionary]
-
-## This dictionary stores all the important information about every creature.
-## Format: Player {
-## 		Current_Area : Map_Area
-##		}
-var Player_Info : Dictionary[Dictionary]
+var Players : Array[Player_Controller]
+var Creatures : Array[Creature_Controller]
 
 ## The director itself is a FSM, the states are defined in /Director_States
-var director_state : DirectorState:
+var director_state : Director_State:
 	set(value):
-		if director_state is Object and director_state.has_method("_exit"): director_state._exit()
+		if director_state is Object and director_state.has_method("_exit"): director_state._exit(self)
 		director_state = value
-		if director_state is Object and director_state.has_method("_enter"): director_state._enter()
+		if director_state is Object and director_state.has_method("_enter"): director_state._enter(self)
 
 ##--- Director States ---##
-
-@onready var Low_Intensity : DirectorState
+@onready var Low_Intensity : Director_State
 
 
 func _ready() -> void:
 	if not multiplayer.is_server(): set_process(false); set_physics_process(false); return
 	Director_Timer.timeout.connect(_main)
 	
-	for player in get_node("/root/Main/Players").get_children():
-		var player_information : Dictionary = { Current_Area: player.get_current_map_area() }
-		Player_Info.set(player, player_information)
+	var area : Map_Area
 	
-	for creature in get_node("/root/Main/Monsters"):
-		var creature_information : Dictionary = { Current_Area: creature.get_current_map_area(), Target_Player: null }
-		Creature_Info.set(creature, creature_information)
-	 
+	for player in get_node("/root/Main/Players").get_children():
+		Players.append(player)
+	
+	for creature in get_node("/root/Main/Creatures").get_children():
+		Creatures.append(creature)
 
 func _main() -> void:
-	if director_state is Object and director_state.has_method("_update"): director_state._update()
+	if director_state is Object and director_state.has_method("_update"): director_state._update(self)
+
+func _list_all_information() -> void:
+	print("---  Players  ---")
+	for player in Players:
+		print(player.name, " ", player.current_area.name)
+	
+	print("--- Creatures ---")
+	for creature in Creatures:
+		print(creature.name, " ", creature.current_area.name)
+	print("-----------------")

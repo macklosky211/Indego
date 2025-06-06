@@ -9,14 +9,13 @@ var interacted_with_last_POI : bool = false
 
 
 func _update(creature : Creature_Controller, _delta : float) -> void:
-	# if vision._Check_All_Vision().size() > 0: print("0_0")
 	_handle_vision()
 	
-	if creature.Nav_Agent.is_target_reached(): _interact_with_POI();
+	if creature.Nav_Agent.is_target_reached(): _interact_with_POI()
 	
-	if interacted_with_last_POI: creature.Nav_Agent.target_position = Vector3.ZERO;
+	if interacted_with_last_POI: creature.Nav_Agent.target_position = Vector3.ZERO
 	
-	if creature.Nav_Agent.target_position == Vector3.ZERO: creature.Nav_Agent.target_position = _find_something_to_do_in_area(creature); interacted_with_last_POI = false;
+	if creature.Nav_Agent.target_position == Vector3.ZERO and creature.current_area is Object: creature.Nav_Agent.target_position = _find_something_to_do_in_area(creature); interacted_with_last_POI = false;
 	if not creature.Nav_Agent.is_target_reachable(): creature.Nav_Agent.target_position = Vector3.ZERO; push_error("Couldnt reach idle_interaction_spot"); return
 	
 	var next_path_postion : Vector3 = creature.Nav_Agent.get_next_path_position()
@@ -45,6 +44,7 @@ func _handle_vision() -> void:
 		return
 
 func _find_something_to_do_in_area(creature: Creature_Controller) -> Vector3:
+	if creature.current_area == null: return Vector3.ZERO
 	var idle_spots : Array[Node3D] = creature.current_area.get_idle_interaction_spots()
 	var random_selection : Vector3 = idle_spots[randi_range(0, idle_spots.size() - 1)].global_position
 	return random_selection

@@ -1,7 +1,15 @@
 extends CharacterBody3D
 class_name Player_Controller
 
-var is_gravity = true
+@onready var ray_cast: RayCast3D = $Camera3D/RayCast3D
+
+var current_area : Map_Area:
+	set(value):
+		if value is Object: print("[", self.name, "] entered new zone: ", value.name)
+		current_area = value
+
+var is_gravity : bool = true
+var is_stunned : bool = false
 
 var current_state: Player_State:
 	set(value):
@@ -9,6 +17,7 @@ var current_state: Player_State:
 		current_state = value
 		print(current_state._get_state_name())
 		if current_state is Object and current_state.has_method("_enter"): current_state._enter(self)
+
 
 @onready var Idle: Player_State = $Idle
 @onready var Grounded_Movement: Player_State = $Grounded_Movement
@@ -19,8 +28,15 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if current_state is Object and current_state.has_method("_update"): current_state._update(self, delta)
-	if is_gravity : velocity += get_gravity()*delta
+	if is_gravity : velocity += get_gravity() * delta
 	move_and_slide()
+	
+	if not is_stunned: _handle_interaction() 
 
 func _get_world_direction_from_input(local_vector : Vector2) -> Vector3:
 	return (transform.basis * Vector3(local_vector.x, 0, -local_vector.y)).normalized()
+
+func _handle_interaction() -> void:
+	if Input.is_action_just_pressed("Interact"):
+		var target = ray_cast.get_collider()
+		if target is Interactable: target._interact(self)
