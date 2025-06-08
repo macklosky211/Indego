@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://8rbjto6hgu2o"]
+[gd_scene load_steps=20 format=3 uid="uid://8rbjto6hgu2o"]
 
 [ext_resource type="Script" uid="uid://dmht8tkm3e0ph" path="res://Scripts/Director_Scripts/Director.gd" id="1_pbw6q"]
 [ext_resource type="Texture2D" uid="uid://deqkavgacqrnu" path="res://Assets/Skybox.png" id="1_r150o"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c4x36pjr1sdgx" path="res://Scenes/Creature.tscn" id="3_kln2b"]
 [ext_resource type="Script" uid="uid://bfvgxck4uxd4g" path="res://Scripts/Resources/Map_Area.gd" id="4_rgh2o"]
 [ext_resource type="Script" uid="uid://bv2x3voqq7x7t" path="res://Scripts/Interactables/Director_Info_Button.gd" id="6_v1gob"]
+[ext_resource type="Script" uid="uid://bciko3p5tc3u1" path="res://Scripts/MoveCreatureButton.gd" id="7_jw32o"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_idj7w"]
 panorama = ExtResource("1_r150o")
@@ -34,7 +35,17 @@ size = Vector3(50, 10, 50)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_pbw6q"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jw32o"]
+albedo_color = Color(0.989673, 0.887864, 0.23229, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_v1gob"]
+material = SubResource("StandardMaterial3D_jw32o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50glp"]
+albedo_color = Color(0.361277, 1, 0.899465, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vy5pj"]
+material = SubResource("StandardMaterial3D_50glp")
 
 [node name="Main" type="Node"]
 
@@ -49,6 +60,7 @@ autostart = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 36.6297, 0)
+visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rgh2o")
@@ -71,6 +83,8 @@ mesh = SubResource("BoxMesh_r150o")
 skeleton = NodePath("../..")
 
 [node name="StaticBody3D2" type="StaticBody3D" parent="NavigationRegion3D/Floor"]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor/StaticBody3D2"]
 shape = SubResource("ConcavePolygonShape3D_idj7w")
@@ -154,13 +168,25 @@ shape = SubResource("BoxShape3D_pbw6q")
 [node name="POI_7" type="Node3D" parent="Zone_4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.1904, 1, -27.0753)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Button1" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -6)
 script = ExtResource("6_v1gob")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button1"]
 shape = SubResource("ConcavePolygonShape3D_pbw6q")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Button1"]
 mesh = SubResource("BoxMesh_v1gob")
+skeleton = NodePath("../..")
+
+[node name="Button2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 6.91654)
+script = ExtResource("7_jw32o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button2"]
+shape = SubResource("ConcavePolygonShape3D_pbw6q")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Button2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00126457, 0.0173368, -0.000165939)
+mesh = SubResource("BoxMesh_vy5pj")
 skeleton = NodePath("../..")

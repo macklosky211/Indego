@@ -9,7 +9,7 @@ var interacted_with_last_POI : bool = false
 
 
 func _update(creature : Creature_Controller, _delta : float) -> void:
-	_handle_vision()
+	_handle_vision(creature)
 	
 	if creature.Nav_Agent.is_target_reached(): _interact_with_POI()
 	
@@ -29,12 +29,14 @@ func _update(creature : Creature_Controller, _delta : float) -> void:
 func _get_state_name() -> String:
 	return "Creature_Idle_In_Area"
 
-func _handle_vision() -> void:
+func _handle_vision(creature : Creature_Controller) -> void:
 	var low_visible_players  : Array[Player_Controller] = vision._check_low_vision()
 	var med_visible_players  : Array[Player_Controller] = vision._check_med_vision()
 	var high_visible_players : Array[Player_Controller] = vision._check_high_vision()
 	if high_visible_players.size() > 0:
 		print("I can see you from REALLY far away.")
+		creature.Chasing.target = high_visible_players[0]
+		creature.creature_state = creature.Chasing
 		return
 	elif med_visible_players.size() > 0:
 		print("I can see you well, but im not looking directly at you yet.")

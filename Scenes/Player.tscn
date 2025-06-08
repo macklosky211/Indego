@@ -23,6 +23,10 @@ script = ExtResource("2_vgqql")
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -2.5)
 
+[node name="SpotLight3D" type="SpotLight3D" parent="Camera3D"]
+light_energy = 5.0
+spot_range = 30.0
+
 [node name="Idle" type="Node" parent="."]
 script = ExtResource("2_cvnsp")
 
@@ -32,3 +36,7 @@ script = ExtResource("3_6t5aa")
 [node name="Air_Movement" type="Node" parent="."]
 script = ExtResource("5_5ixxa")
 metadata/_custom_type_script = "uid://n3c784rmkymc"
+
+[node name="GroundDetection" type="RayCast3D" parent="."]
+target_position = Vector3(0, -10, 0)
+collision_mask = 5

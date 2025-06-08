@@ -2,7 +2,15 @@ extends CharacterBody3D
 class_name Player_Controller
 
 @onready var ray_cast: RayCast3D = $Camera3D/RayCast3D
+@onready var ground_detection: RayCast3D = $GroundDetection
 
+var nav_Point : Vector3:
+	get():
+		if ground_detection.is_colliding(): nav_Point = ground_detection.get_collision_point()
+		else:
+			nav_Point = global_position
+		return nav_Point
+		
 var current_area : Map_Area:
 	set(value):
 		if value is Object: print("[", self.name, "] entered new zone: ", value.name)
@@ -40,3 +48,4 @@ func _handle_interaction() -> void:
 	if Input.is_action_just_pressed("Interact"):
 		var target = ray_cast.get_collider()
 		if target is Interactable: target._interact(self)
+		

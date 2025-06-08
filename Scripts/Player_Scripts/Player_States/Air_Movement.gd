@@ -1,8 +1,10 @@
 extends Player_State
 class_name Player_Air_Movement
 
+@onready var ground_detection: RayCast3D = $GroundDetection
+
 func _update(player : Player_Controller, _delta : float) -> void:
-	if player.is_on_floor(): player.current_state = player.Idle
+	if player.is_on_floor(): player.current_state = player.Idle; return
 
 func _get_state_name() -> String:
 	return "Player_Air_Movement"

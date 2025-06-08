@@ -49,3 +49,8 @@ func _list_all_information() -> void:
 	for creature in Creatures:
 		print(creature.name, " ", creature.current_area.name)
 	print("-----------------")
+	
+func _change_monster_area() -> void:
+	for creature in Creatures:
+		creature.Traverse_To_Area.destination = Vector3(46, 1, 47)
+		creature.creature_state = creature.Traverse_To_Area

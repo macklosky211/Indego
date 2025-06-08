@@ -72,3 +72,4 @@ Interact={
 [layer_names]
 
 3d_physics/layer_2="Map_Area"
+3d_physics/layer_3="Floor"

@@ -58,7 +58,7 @@ var predicted_player_location : Vector3 = Vector3.ZERO
 @onready var Idle : Creature_State = $States/Idle
 
 ## This state causes the creature to move towards a different zone, this target will be assigned by the director
-#@onready var Traverse_To_Area : Creature_State = $States/Traverse_To_Area
+@onready var Traverse_To_Area : Creature_State = $States/Traverse_To_Area
 
 ## Used to call area specific functions. has sub-states.
 @onready var Idle_In_Area : Creature_State = $States/Idle_In_Area
@@ -66,7 +66,7 @@ var predicted_player_location : Vector3 = Vector3.ZERO
 ## This state causes the creature to be on alert for a period of time.
 ## Triggers: Player was noticed by creature or player interacted with something that alerted this monster.
 ## Small increase to 'intensity'
-#@onready var Alert : Creature_State = $States/Alert
+@onready var Alert : Creature_State = $States/Alert
 
 ## This state causes a creature to search its immediate area for anything out of place (Player).
 ## Triggers: Creature was alerted but didnt find anything before alert timer ended.
@@ -75,7 +75,7 @@ var predicted_player_location : Vector3 = Vector3.ZERO
 ## This state causes the creature to chase the closest player.
 ## Triggers: Player was seen while Alert or Investigating, or director specified event.
 ## This state specially uses 'predicted player location' which is a variable that does its best to approximate where the player will be going next.
-#@onready var Chasing : Creature_State = $States/Chasing
+@onready var Chasing : Creature_State = $States/Chasing
 
 ## This is a state that allows for the player to counter the creature
 ## Triggers: Enviornment stunned the creature (Falling Debris, Electrified water, etc) or the player blinded the creature.
