@@ -32,6 +32,7 @@ var current_state: Player_State:
 @onready var Air_Movement: Player_Air_Movement = $Air_Movement
 
 func _ready() -> void:
+	if not is_multiplayer_authority(): set_process(false); set_physics_process(false); self.set_script(null); return
 	current_state = Idle
 
 func _physics_process(delta: float) -> void:
