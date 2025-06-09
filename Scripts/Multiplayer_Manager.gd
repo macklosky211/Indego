@@ -9,7 +9,7 @@ var is_client_connected : bool = false
 
 @onready var player_spawner: MultiplayerSpawner = $"../Players/PlayerSpawner"
 
-@export var address : String = "72.196.212.7" # "72.196.212.7"
+@export var address : String = "localhost" # "72.196.212.7"
 @export var port : int = 25565
 @export var max_players : int = 4
 
@@ -25,7 +25,6 @@ func peer_connected(id: int) -> void:
 	
 	if multiplayer.is_server():
 		player_spawner.spawn([id])
-
 
 func connection_failure() -> void:
 	print("Connection failed.")
