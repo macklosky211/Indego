@@ -1,5 +1,5 @@
 extends Creature_State
-class_name Traverse_To_Area
+class_name Creature_Traverse_To_Area
 
 const CREATURE_SPEED : float = 5.0
 var destination : Vector3

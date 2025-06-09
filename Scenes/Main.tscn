@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://8rbjto6hgu2o"]
+[gd_scene load_steps=21 format=3 uid="uid://8rbjto6hgu2o"]
 
+[ext_resource type="Script" uid="uid://bn00rkpklf180" path="res://Scripts/Multiplayer_Manager.gd" id="1_50glp"]
 [ext_resource type="Script" uid="uid://dmht8tkm3e0ph" path="res://Scripts/Director_Scripts/Director.gd" id="1_pbw6q"]
 [ext_resource type="Texture2D" uid="uid://deqkavgacqrnu" path="res://Assets/Skybox.png" id="1_r150o"]
-[ext_resource type="PackedScene" uid="uid://cwdaippcfuti3" path="res://Scenes/Player.tscn" id="2_idj7w"]
 [ext_resource type="PackedScene" uid="uid://c4x36pjr1sdgx" path="res://Scenes/Creature.tscn" id="3_kln2b"]
 [ext_resource type="Script" uid="uid://bfvgxck4uxd4g" path="res://Scripts/Resources/Map_Area.gd" id="4_rgh2o"]
+[ext_resource type="Script" uid="uid://dxr4djyrqs4b6" path="res://Scripts/Multiplayer_Scripts/player_spawner.gd" id="5_vy5pj"]
 [ext_resource type="Script" uid="uid://bv2x3voqq7x7t" path="res://Scripts/Interactables/Director_Info_Button.gd" id="6_v1gob"]
 [ext_resource type="Script" uid="uid://bciko3p5tc3u1" path="res://Scripts/MoveCreatureButton.gd" id="7_jw32o"]
 
@@ -49,6 +50,9 @@ material = SubResource("StandardMaterial3D_50glp")
 
 [node name="Main" type="Node"]
 
+[node name="MultiplayerManager" type="Node" parent="."]
+script = ExtResource("1_50glp")
+
 [node name="Director" type="Node" parent="." node_paths=PackedStringArray("Map_Areas")]
 unique_name_in_owner = true
 script = ExtResource("1_pbw6q")
@@ -67,8 +71,10 @@ environment = SubResource("Environment_rgh2o")
 
 [node name="Players" type="Node" parent="."]
 
-[node name="Player" parent="Players" instance=ExtResource("2_idj7w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 3.0404, 0)
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Players"]
+_spawnable_scenes = PackedStringArray("uid://cwdaippcfuti3")
+spawn_path = NodePath("..")
+script = ExtResource("5_vy5pj")
 
 [node name="Creatures" type="Node" parent="."]
 
@@ -190,3 +196,30 @@ shape = SubResource("ConcavePolygonShape3D_pbw6q")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00126457, 0.0173368, -0.000165939)
 mesh = SubResource("BoxMesh_vy5pj")
 skeleton = NodePath("../..")
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HostButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 1046.0
+offset_top = 444.0
+offset_right = 1500.0
+offset_bottom = 593.0
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_left = 253.0
+offset_top = 444.0
+offset_right = 707.0
+offset_bottom = 593.0
+text = "Join"
+
+[connection signal="pressed" from="MainMenu/HostButton" to="MultiplayerManager" method="start_server"]
+[connection signal="pressed" from="MainMenu/JoinButton" to="MultiplayerManager" method="start_client"]

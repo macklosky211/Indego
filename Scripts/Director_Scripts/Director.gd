@@ -29,13 +29,13 @@ func _ready() -> void:
 	if not multiplayer.is_server(): set_process(false); set_physics_process(false); return
 	Director_Timer.timeout.connect(_main)
 	
-	var area : Map_Area
-	
 	for player in get_node("/root/Main/Players").get_children():
-		Players.append(player)
+		if player is Player_Controller:
+			Players.append(player)
 	
 	for creature in get_node("/root/Main/Creatures").get_children():
-		Creatures.append(creature)
+		if creature is Creature_Controller:
+			Creatures.append(creature)
 
 func _main() -> void:
 	if director_state is Object and director_state.has_method("_update"): director_state._update(self)

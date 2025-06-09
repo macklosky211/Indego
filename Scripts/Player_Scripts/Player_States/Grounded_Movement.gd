@@ -1,7 +1,7 @@
 extends Player_State
 class_name Player_Grounded_Movement
 
-const JUMP_FORCE : float = 5.0
+const JUMP_FORCE : float = 3
 
 const FORWARD_WALK_SPEED : float = 5.0
 const BACKWARD_WALK_SPEED : float = FORWARD_WALK_SPEED * 0.5
