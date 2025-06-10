@@ -2,7 +2,7 @@ extends MultiplayerSpawner
 
 var Player_Scene : PackedScene = preload("res://Scenes/player.tscn")
 
-var Spawn_Positions = Array([Vector3(0,5,0), Vector3(10,5,10), Vector3(0, 5, 10), Vector3(10, 5, 0)])
+var Spawn_Positions = Array([Vector3(0,25,0), Vector3(10,25,10), Vector3(0, 25, 10), Vector3(10, 25, 0)])
 
 var playerCount = 0
 # Called when the node enters the scene tree for the first time.
