@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://8rbjto6hgu2o"]
+[gd_scene load_steps=23 format=3 uid="uid://8rbjto6hgu2o"]
 
 [ext_resource type="Script" uid="uid://bn00rkpklf180" path="res://Scripts/Multiplayer_Manager.gd" id="1_50glp"]
 [ext_resource type="Script" uid="uid://dmht8tkm3e0ph" path="res://Scripts/Director_Scripts/Director.gd" id="1_pbw6q"]
@@ -18,6 +18,25 @@ sky_material = SubResource("PanoramaSkyMaterial_idj7w")
 [sub_resource type="Environment" id="Environment_rgh2o"]
 background_mode = 2
 sky = SubResource("Sky_kln2b")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 3
+ssao_enabled = true
+ssil_enabled = true
+fog_sky_affect = 0.084
+volumetric_fog_enabled = true
+volumetric_fog_anisotropy = 0.9
+volumetric_fog_detail_spread = 4.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_50glp"]
+auto_exposure_enabled = true
+auto_exposure_scale = 0.2
+dof_blur_far_enabled = true
+dof_blur_far_distance = 50.0
+dof_blur_amount = 0.05
+
+[sub_resource type="Compositor" id="Compositor_50glp"]
+compositor_effects = Array[CompositorEffect]([null])
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rgh2o"]
 vertices = PackedVector3Array(-49.5, 1, -49.5, -49.5, 1, 49.5, 49.5, 1, 49.5, 49.5, 1, -49.5)
@@ -68,6 +87,8 @@ visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rgh2o")
+camera_attributes = SubResource("CameraAttributesPractical_50glp")
+compositor = SubResource("Compositor_50glp")
 
 [node name="Players" type="Node" parent="."]
 
