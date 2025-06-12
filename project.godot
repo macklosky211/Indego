@@ -15,6 +15,10 @@ run/main_scene="uid://8rbjto6hgu2o"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://Assets/icon.svg"
 
+[audio]
+
+driver/enable_input=true
+
 [display]
 
 window/size/viewport_width=1920
