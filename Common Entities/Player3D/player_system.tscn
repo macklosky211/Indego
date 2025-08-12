@@ -1,0 +1,41 @@
+[gd_scene load_steps=10 format=3 uid="uid://cuwfcos5nyj08"]
+
+[ext_resource type="Script" uid="uid://mevyd4lbcfdr" path="res://Entities/Player/player_system.gd" id="1_hernn"]
+[ext_resource type="PackedScene" uid="uid://cm55x3jkk1pxm" path="res://Common/HealthSystem/HealthComponent.tscn" id="2_363qx"]
+[ext_resource type="Script" uid="uid://b561hq4wvthpc" path="res://Entities/Player/PlayerStates/MovementState.gd" id="2_fgqsf"]
+[ext_resource type="PackedScene" uid="uid://crv1lf7qtx4rx" path="res://Common/PlayerCameraSystem/CameraSystem.tscn" id="3_fgqsf"]
+[ext_resource type="PackedScene" uid="uid://dr0hddtney18l" path="res://Entities/Player/VaultSystem/VaultSystem.tscn" id="5_fgqsf"]
+[ext_resource type="Material" uid="uid://cehd53iowh3mb" path="res://Assets/Shaders/basic_outline_overlay.tres" id="5_kpy3d"]
+[ext_resource type="PackedScene" uid="uid://cgnvketgxao4e" path="res://Common/SpellSystem/SpellCastingSystem/SpellCastingSystem.tscn" id="7_5bmbb"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hernn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_363qx"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("current_state")]
+script = ExtResource("1_hernn")
+current_state = NodePath("PlayerStates/Movement_State")
+
+[node name="PlayerStates" type="Node" parent="."]
+
+[node name="Movement_State" type="Node" parent="PlayerStates"]
+script = ExtResource("2_fgqsf")
+metadata/_custom_type_script = "uid://b561hq4wvthpc"
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_363qx")]
+
+[node name="CameraSystem" parent="." instance=ExtResource("3_fgqsf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+can_change_perspective = true
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
+material_overlay = ExtResource("5_kpy3d")
+mesh = SubResource("CapsuleMesh_hernn")
+
+[node name="PlayerCollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_363qx")
+
+[node name="VaultSystem" parent="." instance=ExtResource("5_fgqsf")]
+
+[node name="SpellCastingSystem" parent="." instance=ExtResource("7_5bmbb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)

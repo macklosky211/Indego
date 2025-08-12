@@ -1,4 +1,4 @@
-class_name EventDriver extends Node
+class_name NetworkEventDriver extends Node
 
 var player_events : player_events_class = player_events_class.new()
 

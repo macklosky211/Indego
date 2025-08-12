@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://crv1lf7qtx4rx"]
+
+[ext_resource type="Script" uid="uid://bgutspkwe80bg" path="res://Common/PlayerCameraSystem/camera_system.gd" id="1_sq4s0"]
+
+[node name="CameraSystem" type="Camera3D"]
+script = ExtResource("1_sq4s0")
+camera_type = 1
+
+[node name="Third_Person_Position" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.5)
+
+[node name="First_Person_Position" type="Marker3D" parent="."]
